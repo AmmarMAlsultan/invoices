@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\invoices;
+use App\Models\sections;
+use App\Models\products;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class InvoicesController extends Controller
 {
@@ -24,7 +27,8 @@ class InvoicesController extends Controller
      */
     public function create()
     {
-        //
+        $section=sections::all();
+        return view('invoices.add_invoices',compact('section'));
     }
 
     /**
@@ -81,5 +85,10 @@ class InvoicesController extends Controller
     public function destroy(invoices $invoices)
     {
         //
+    }
+    public function product_add($id)
+    {
+        $product=DB::table('products')->where('section_id',$id)->pluck('product_name','id');
+        return json_encode( $product);
     }
 }
